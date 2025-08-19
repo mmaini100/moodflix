@@ -153,7 +153,7 @@ function App() {
               <label>
                 <input type="checkbox" /> Remember me
               </label>
-              <a href="#">Need help?</a>
+              <p>Need help?</p>
             </div>
           )}
 

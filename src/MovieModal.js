@@ -34,7 +34,8 @@ const MovieModal = ({ movie, onClose }) => {
 
     fetchTrailer();
     checkIfInList();
-  }, [movie]);
+ }, [movie]);
+
 
   const checkIfInList = () => {
     const list = JSON.parse(localStorage.getItem("myList")) || [];
