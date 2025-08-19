@@ -1,7 +1,5 @@
 # 🎬 Moodflix
 
-Moodflix is a movie discovery web app built with **React** and **The Movie Database (TMDb) API**.  
+Moodflix is a movie discovery web app built with **React**, **Firebase Authentication**, and **The Movie Database (TMDb) API**.  
 Users can browse, search, and save movies to their personal list.  
-It also includes features like trailers, categories, mood-based recommendations, and a **“Surprise Me”** option for instant random picks.
-
-
+It includes features like trailers, categories, mood-based recommendations, a **“Surprise Me”** option, and **secure user authentication** with Firebase.
