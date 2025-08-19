@@ -1,16 +1,23 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import "./SurpriseMe.css";
 
 const SurpriseMe = () => {
   const [movie, setMovie] = useState(null);
   const [showTrailer, setShowTrailer] = useState(false);
   const [trailerKey, setTrailerKey] = useState(null);
-  const [addedToList, setAddedToList] = useState(false); // ✅ new state
+  const [addedToList, setAddedToList] = useState(false);
   const trailerRef = useRef(null);
+  const hasFetched = useRef(false);
 
   const apiKey = process.env.REACT_APP_TMDB_API_KEY;
 
-  const getRandomMovie = async () => {
+  const checkIfAlreadyInList = useCallback((m) => {
+    const existingList = JSON.parse(localStorage.getItem("my-movie-list")) || [];
+    const alreadyExists = existingList.some((x) => x.id === m.id);
+    setAddedToList(alreadyExists);
+  }, []);
+
+  const getRandomMovie = useCallback(async () => {
     try {
       const randomPage = Math.floor(Math.random() * 50) + 1;
       const res = await fetch(
@@ -26,46 +33,42 @@ const SurpriseMe = () => {
           `https://api.themoviedb.org/3/movie/${selectedMovie.id}/videos?api_key=${apiKey}`
         );
         const trailerData = await trailerRes.json();
-        const trailer = trailerData.results.find(
+        const trailer = (trailerData.results || []).find(
           (vid) => vid.type === "Trailer" && vid.site === "YouTube"
         );
 
         setTrailerKey(trailer ? trailer.key : null);
         setMovie(selectedMovie);
         setShowTrailer(false);
-        checkIfAlreadyInList(selectedMovie); // ✅ update check
+        checkIfAlreadyInList(selectedMovie);
       }
     } catch (error) {
       console.error("Error fetching movie or trailer:", error);
     }
-  };
-
-  const checkIfAlreadyInList = (movie) => {
-    const existingList = JSON.parse(localStorage.getItem("my-movie-list")) || [];
-    const alreadyExists = existingList.some((m) => m.id === movie.id);
-    setAddedToList(alreadyExists);
-  };
-
-  const saveToMyList = (movie) => {
-    const existingList = JSON.parse(localStorage.getItem("my-movie-list")) || [];
-    const alreadyExists = existingList.some((m) => m.id === movie.id);
-
-    if (!alreadyExists) {
-      const updatedList = [...existingList, movie];
-      localStorage.setItem("my-movie-list", JSON.stringify(updatedList));
-      setAddedToList(true); // ✅ update UI
-    }
-  };
+  }, [apiKey, checkIfAlreadyInList]);
 
   useEffect(() => {
+    // Guard against Strict Mode double-invoke in development
+    if (hasFetched.current) return;
+    hasFetched.current = true;
     getRandomMovie();
-  }, []);
+  }, [getRandomMovie]);
 
   useEffect(() => {
     if (showTrailer && trailerRef.current) {
       trailerRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }, [showTrailer]);
+
+  const saveToMyList = (m) => {
+    const existingList = JSON.parse(localStorage.getItem("my-movie-list")) || [];
+    const alreadyExists = existingList.some((x) => x.id === m.id);
+    if (!alreadyExists) {
+      const updatedList = [...existingList, m];
+      localStorage.setItem("my-movie-list", JSON.stringify(updatedList));
+      setAddedToList(true);
+    }
+  };
 
   if (!movie) return <p className="loading-text">Loading Surprise...</p>;
 
@@ -80,6 +83,7 @@ const SurpriseMe = () => {
             className="surprise-image"
           />
         )}
+
         <div className="surprise-info">
           <h3>{movie.title}</h3>
           <p>{movie.overview || "No description available."}</p>
@@ -118,7 +122,7 @@ const SurpriseMe = () => {
               frameBorder="0"
               allow="autoplay; encrypted-media"
               allowFullScreen
-            ></iframe>
+            />
           </div>
         )}
       </div>

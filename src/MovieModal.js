@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import "./MovieModal.css";
 import axios from "axios";
 
@@ -8,22 +8,31 @@ const MovieModal = ({ movie, onClose }) => {
   const [isInList, setIsInList] = useState(false);
   const iframeRef = useRef(null);
 
+  // ✅ Stable function
+  const checkIfInList = useCallback(() => {
+    if (!movie) return;
+    const list = JSON.parse(localStorage.getItem("myList")) || [];
+    setIsInList(list.some((m) => m.id === movie.id));
+  }, [movie]);
+
   useEffect(() => {
     const fetchTrailer = async () => {
       if (!movie) return;
       try {
         const type = movie.name ? "tv" : "movie";
-        const response = await axios.get(`https://api.themoviedb.org/3/${type}/${movie.id}/videos`, {
-          params: {
-            api_key: process.env.REACT_APP_TMDB_API_KEY,
-            language: "en-US",
-          },
-        });
+        const response = await axios.get(
+          `https://api.themoviedb.org/3/${type}/${movie.id}/videos`,
+          {
+            params: {
+              api_key: process.env.REACT_APP_TMDB_API_KEY,
+              language: "en-US",
+            },
+          }
+        );
 
         const trailer = response.data.results.find(
           (vid) => vid.type === "Trailer" && vid.site === "YouTube"
         );
-
         if (trailer) {
           setTrailerKey(trailer.key);
         }
@@ -34,13 +43,7 @@ const MovieModal = ({ movie, onClose }) => {
 
     fetchTrailer();
     checkIfInList();
- }, [movie]);
-
-
-  const checkIfInList = () => {
-    const list = JSON.parse(localStorage.getItem("myList")) || [];
-    setIsInList(list.some((m) => m.id === movie.id));
-  };
+  }, [movie, checkIfInList]); // ✅ include it safely
 
   const handleAddToList = () => {
     const list = JSON.parse(localStorage.getItem("myList")) || [];
@@ -66,7 +69,7 @@ const MovieModal = ({ movie, onClose }) => {
           console.error("Fullscreen failed:", err);
         });
       }
-    }, 300); // small delay to mount iframe first
+    }, 300);
   };
 
   const handleGoBack = () => {
@@ -94,13 +97,17 @@ const MovieModal = ({ movie, onClose }) => {
               allowFullScreen
               title="Trailer"
             ></iframe>
-            <button className="go-back-btn" onClick={handleGoBack}>← Go Back</button>
+            <button className="go-back-btn" onClick={handleGoBack}>
+              ← Go Back
+            </button>
           </div>
         ) : (
           <>
             <img
               className="modal-backdrop"
-              src={`https://image.tmdb.org/t/p/original${movie.backdrop_path || movie.poster_path}`}
+              src={`https://image.tmdb.org/t/p/original${
+                movie.backdrop_path || movie.poster_path
+              }`}
               alt={movie.title || movie.name}
             />
 
@@ -108,11 +115,17 @@ const MovieModal = ({ movie, onClose }) => {
               <h2>{movie.title || movie.name}</h2>
               <p>{movie.overview}</p>
               <div className="modal-actions">
-                <button className="play" onClick={handlePlay}>▶ Play</button>
+                <button className="play" onClick={handlePlay}>
+                  ▶ Play
+                </button>
                 {isInList ? (
-                  <button className="add" onClick={handleRemoveFromList}>✔ In List</button>
+                  <button className="add" onClick={handleRemoveFromList}>
+                    ✔ In List
+                  </button>
                 ) : (
-                  <button className="add" onClick={handleAddToList}>＋ My List</button>
+                  <button className="add" onClick={handleAddToList}>
+                    ＋ My List
+                  </button>
                 )}
               </div>
             </div>
