@@ -1,0 +1,165 @@
+/* Global reset and layout */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #fff;
+  height: 100vh;
+}
+
+/* Center the entire card */
+.netflix-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative; /* Added line */
+}
+
+
+/* Card styling */
+.form-wrapper {
+  background-color: #111;
+  padding: 50px 40px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 350px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.75);
+  text-align: center; /* ⬅️ Center all content */
+}
+
+/* Title */
+.title {
+  font-size: 28px;
+  margin-bottom: 25px;
+  font-weight: bold;
+  margin-right: 30px ;
+  color: white;
+  margin-right: 250px;
+}
+
+/* Input styling */
+.signin-form input {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 16px;
+  background-color: #333;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-size: 16px;
+}
+
+/* Button styling */
+.signin-form button {
+  width: 100%;
+  padding: 14px;
+  background-color: #e50914;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  margin-top: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.signin-form button:hover {
+  background-color: #f6121d;
+}
+
+/* Options: remember + help */
+.options {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #b3b3b3;
+  margin-top: 16px;
+}
+
+.options label {
+  display: flex;
+  align-items: center;
+}
+
+.options a {
+  color: #b3b3b3;
+  text-decoration: none;
+}
+
+.options a:hover {
+  text-decoration: underline;
+}
+
+/* Bottom prompt */
+.signup-prompt {
+  margin-top: 30px;
+  font-size: 14px;
+  color: #b3b3b3;
+}
+
+.signup-prompt a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.signup-prompt a:hover {
+  text-decoration: underline;
+}
+
+.box{
+  margin-right: 25px;
+}
+
+/* ✅ Moodflix Logo */
+.logo {
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  font-size: 32px;
+  font-weight: bold;
+  color: #e50914;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  z-index: 10; /* ensures it's above all other elements */
+}
+.whos-watching {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: #000;
+  color: #fff;
+  text-align: center;
+}
+
+.whos-watching h1 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+}
+
+.profiles {
+  display: flex;
+  gap: 30px;
+}
+
+.profile {
+  width: 120px;
+  height: 120px;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.profile:hover {
+  transform: scale(1.05);
+}

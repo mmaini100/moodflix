@@ -1,0 +1,157 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+  
+  .modal-content {
+    width: 80%;
+    max-width: 900px;
+    background-color: #141414;
+    color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    animation: popUp 0.4s ease;
+  }
+  
+  .modal-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 2rem;
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 100;
+  }
+  
+  .modal-trailer {
+    width: 100%;
+    height: 400px;
+    border: none;
+  }
+  
+  .modal-backdrop {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+  }
+  
+  .modal-info {
+    padding: 1.5rem;
+  }
+  
+  .modal-info h2 {
+    margin-top: 0;
+    font-size: 2rem;
+  }
+  
+  .modal-info p {
+    color: #ccc;
+    font-size: 1rem;
+    margin: 1rem 0;
+  }
+  
+  .modal-actions {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .modal-actions button {
+    padding: 0.5rem 1.2rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .modal-actions .play {
+    background: #fff;
+    color: #000;
+  }
+  
+  .modal-actions .add {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+  }
+  
+  @keyframes popUp {
+    from {
+      transform: scale(0.95);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  .fullscreen-trailer {
+    position: relative;
+    width: 100%;
+    height: 80vh;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .fullscreen-trailer iframe {
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+  }
+  
+  .go-back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #e50914;
+    border: none;
+    padding: 0.5rem 1rem;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 10;
+  }
+  .fullscreen-trailer-wrapper {
+    position: relative;
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .fullscreen-trailer {
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    z-index: 1;
+  }
+  
+  .go-back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #e50914;
+    border: none;
+    padding: 0.6rem 1rem;
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 2; /* Must be above iframe */
+  }
+  
